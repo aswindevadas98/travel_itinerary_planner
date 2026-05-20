@@ -1,0 +1,70 @@
+research_destination:
+  description: >
+    Research the following travel destination and produce a comprehensive destination brief:
+
+    Destination: {destination}
+    Trip Duration: {trip_duration} days
+    Traveler Interests: {interests}
+
+    Your output must include:
+    - Top must-see attractions (with a one-line reason each)
+    - Hidden gems and local insider tips relevant to the traveler's interests
+    - Neighborhood or area recommendations (where to stay, where to explore)
+    - Things to avoid (tourist traps, unsafe areas, common mistakes)
+    - Best time of day to visit key attractions
+    - Local customs or etiquette the traveler should know
+  expected_output: >
+    A structured destination brief with must-see attractions, insider tips,
+    area recommendations, things to avoid, and local customs.
+  agent: destination_researcher
+
+build_itinerary:
+  description: >
+    Using the destination brief from the previous task, build a complete
+    day-by-day itinerary for a {trip_duration}-day trip to {destination}.
+
+    Traveler Interests: {interests}
+
+    Rules:
+    - Use the TripDurationValidator tool first with {trip_duration} and adjust
+      your approach based on its output before building the plan
+    - Structure each day with Morning, Afternoon, and Evening slots
+    - Account for realistic travel time between locations
+    - Align activity choices with the traveler's stated interests
+    - Never over-pack a day — include buffer time and meal breaks
+    - Flag 1 optional activity per day for flexible travelers
+  expected_output: >
+    A complete day-by-day itinerary with Morning / Afternoon / Evening slots
+    for each day, including activity names, brief descriptions, and travel tips.
+  agent: itinerary_builder
+
+estimate_budget:
+  description: >
+    Using the destination brief and the day-by-day itinerary from the previous tasks,
+    produce a full budget breakdown for the trip.
+
+    Destination: {destination}
+    Trip Duration: {trip_duration} days
+    Traveler Interests: {interests}
+
+    Your output must include:
+    - Daily cost estimate broken down by:
+        * Accommodation (budget / mid-range / luxury tiers)
+        * Food (breakfast, lunch, dinner averages)
+        * Activities and entrance fees (pulled from the itinerary)
+        * Local transport (per day estimate)
+    - Total trip cost estimate per tier (budget / mid-range / luxury)
+    - Top 3 money-saving tips specific to this destination
+    - Any hidden costs or common expense surprises to watch for
+
+    Format the final output as a complete Markdown document that includes:
+    1. Destination overview and trip summary
+    2. Full attraction and highlights list (from the researcher)
+    3. Day-by-day itinerary (from the itinerary builder)
+    4. Budget breakdown table and total estimates
+    5. Money-saving tips
+  expected_output: >
+    A complete itinerary.md document combining the attraction list,
+    day-by-day plan, and a full budget breakdown with per-day costs,
+    total trip estimates across three tiers, and money-saving tips.
+  agent: budget_estimator
